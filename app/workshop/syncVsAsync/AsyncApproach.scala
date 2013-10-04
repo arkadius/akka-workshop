@@ -16,12 +16,11 @@ object AsyncApproach extends App {
 
   implicit val executionContext = ExecutionContext.fromExecutorService(Executors.newFixedThreadPool(2))
 
-  def doWork() = {
+  def doWork() =
     for {
       hardWorkResult <- future { hardWorking.hardWork() }
       quickResult <-    future { quick.doItQuick() }
     } yield quickResult
-  }
 
   Await.result(doWork() map { r => println(s"result: $r") }, 5 seconds); executionContext.shutdown()
 //  doConcurrent()
